@@ -83,27 +83,39 @@ def simulate_eeg_signal(word, num_channels, num_time_points, sampling_rate):
 
     return signal
 
-# List of words
-words = ["Hello", "World", "Python", "Data", "Science", "Machine", "Learning", "Model", "Brain", "Wave"]
+# Simulation parameters
+num_channels = 8
+num_time_points = 500
+sampling_rate = 250  # Hz
 
 st.title("EEG to Text Prediction")
+
+# List to store actual labels and their corresponding predictions
+actual_labels = []
+predicted_labels = []
 
 # Display predictions for each uploaded image
 for i in range(10):
     uploaded_image = st.file_uploader(f"Upload Image {i+1}", type=["png", "jpg", "jpeg"], key=i)
     if uploaded_image is not None:
         image = Image.open(uploaded_image)
-        actual_label = words[i]
-        new_eeg_signal = simulate_eeg_signal(actual_label, 8, 500, 250)
+        
+        # Extract the label from the image filename
+        filename = uploaded_image.name
+        actual_label = filename.split('_')[0]
+        
+        # Simulate EEG signal for the extracted label
+        new_eeg_signal = simulate_eeg_signal(actual_label, num_channels, num_time_points, sampling_rate)
         preprocessed_signal = preprocess_eeg(new_eeg_signal)
         
-        # Make prediction (not actually used)
-        # prediction = model.predict(preprocessed_signal)
-        # predicted_label_index = np.argmax(prediction)
-        # predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
+        # Make prediction
+        prediction = model.predict(preprocessed_signal)
+        predicted_label_index = np.argmax(prediction)
+        predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
         
-        # Override the predicted label to match the actual label
-        predicted_label = actual_label
+        # Store the actual and predicted labels
+        actual_labels.append(actual_label)
+        predicted_labels.append(predicted_label)
         
         # Display the image and labels
         st.image(image, caption=f"Uploaded Image {i+1}", use_column_width=True)
