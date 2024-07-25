@@ -35,7 +35,7 @@ class ConformerBlock(tf.keras.layers.Layer):
 
 # Load the model with the custom object scope
 with custom_object_scope({'ConformerBlock': ConformerBlock}):
-    model = load_model('11eeg_classification_model_conformer.h5')
+    model = load_model('11eeg_classification_model_conformer.h5', compile=False)
 
 # Load the label encoder
 with open('label_encoder.pkl', 'rb') as f:
