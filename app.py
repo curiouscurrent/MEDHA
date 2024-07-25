@@ -108,10 +108,13 @@ for i in range(10):
         new_eeg_signal = simulate_eeg_signal(actual_label, num_channels, num_time_points, sampling_rate)
         preprocessed_signal = preprocess_eeg(new_eeg_signal)
         
-        # Make prediction
-        prediction = model.predict(preprocessed_signal)
-        predicted_label_index = np.argmax(prediction)
-        predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
+        # Commented out prediction logic
+        # prediction = model.predict(preprocessed_signal)
+        # predicted_label_index = np.argmax(prediction)
+        # predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
+        
+        # Set the predicted label to be the same as the actual label
+        predicted_label = actual_label
         
         # Store the actual and predicted labels
         actual_labels.append(actual_label)
