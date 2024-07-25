@@ -3,6 +3,6 @@ tensorflow==2.15.0
 tensorflow-addons
 pillow
 numpy
-sklearn
+scikit-learn
 matplotlib
 seaborn
