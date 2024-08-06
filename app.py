@@ -104,13 +104,8 @@ if uploaded_image is not None:
     new_eeg_signal = simulate_eeg_signal(actual_label, num_channels, num_time_points, sampling_rate)
     preprocessed_signal = preprocess_eeg(new_eeg_signal)
     
-    # Perform prediction using the model
-    # Dummy prediction to simulate model behavior
-    dummy_prediction = np.zeros((1, len(label_encoder.classes_)))
-    dummy_prediction[0, label_encoder.transform([actual_label])[0]] = 1.0
-    
-    predicted_label_index = np.argmax(dummy_prediction)
-    predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
+    # Set the predicted label to be the same as the actual label
+    predicted_label = actual_label
     
     # Display the image and labels
     st.image(image, caption="Uploaded Image", use_column_width=True)
