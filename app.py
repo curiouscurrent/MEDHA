@@ -127,5 +127,5 @@ for i in range(10):
         st.write(f"Predicted Label: {predicted_label}")
         st.write("------------------------------")
 
-if len([file for file in st.session_state if file.startswith('Upload Image')]) < 10:
+if len([file for file in st.session_state if file.startswith('Upload Image')]) == 1:
     st.write("Please upload 10 images.")
