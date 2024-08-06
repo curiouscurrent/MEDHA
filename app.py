@@ -90,42 +90,28 @@ sampling_rate = 250  # Hz
 
 st.title("EEG to Text Prediction")
 
-# List to store actual labels and their corresponding predictions
-actual_labels = []
-predicted_labels = []
+# Single image upload
+uploaded_image = st.file_uploader("Upload a single image", type=["png", "jpg", "jpeg"])
 
-# Display predictions for each uploaded image
-for i in range(10):
-    uploaded_image = st.file_uploader(f"Upload Image {i+1}", type=["png", "jpg", "jpeg"], key=i)
-    if uploaded_image is not None:
-        image = Image.open(uploaded_image)
-        
-        # Extract the label from the image filename
-        filename = uploaded_image.name
-        actual_label = filename.split('_')[0]
-        
-        # Simulate EEG signal for the extracted label
-        new_eeg_signal = simulate_eeg_signal(actual_label, num_channels, num_time_points, sampling_rate)
-        preprocessed_signal = preprocess_eeg(new_eeg_signal)
-        
-        # Commented out prediction logic
-        # prediction = model.predict(preprocessed_signal)
-        # predicted_label_index = np.argmax(prediction)
-        # predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
-        
-        # Set the predicted label to be the same as the actual label
-        predicted_label = actual_label
-        
-        # Store the actual and predicted labels
-        actual_labels.append(actual_label)
-        predicted_labels.append(predicted_label)
-        
-        # Display the image and labels
-        st.image(image, caption=f"Uploaded Image {i+1}", use_column_width=True)
-        st.write(f"1/1 [==============================] - 0s")
-        st.write(f"Actual Label: {actual_label}")
-        st.write(f"Predicted Label: {predicted_label}")
-        st.write("------------------------------")
-
-if len([file for file in st.session_state if file.startswith('Upload Image')]) == 1:
-    st.write("Please upload 10 images.")
+if uploaded_image is not None:
+    image = Image.open(uploaded_image)
+    
+    # Extract the label from the image filename
+    filename = uploaded_image.name
+    actual_label = filename.split('_')[0]
+    
+    # Simulate EEG signal for the extracted label
+    new_eeg_signal = simulate_eeg_signal(actual_label, num_channels, num_time_points, sampling_rate)
+    preprocessed_signal = preprocess_eeg(new_eeg_signal)
+    
+    # Perform prediction
+    prediction = model.predict(preprocessed_signal)
+    predicted_label_index = np.argmax(prediction)
+    predicted_label = label_encoder.inverse_transform([predicted_label_index])[0]
+    
+    # Display the image and labels
+    st.image(image, caption="Uploaded Image", use_column_width=True)
+    st.write(f"Actual Label: {actual_label}")
+    st.write(f"Predicted Label: {predicted_label}")
+else:
+    st.write("Please upload an image.")
