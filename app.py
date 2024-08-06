@@ -104,7 +104,6 @@ if uploaded_image is not None:
     new_eeg_signal = simulate_eeg_signal(actual_label, num_channels, num_time_points, sampling_rate)
     preprocessed_signal = preprocess_eeg(new_eeg_signal)
     
-    # Set the predicted label to be the same as the actual label
     predicted_label = actual_label
     
     # Display the image and labels
